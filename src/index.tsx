@@ -278,7 +278,7 @@ class NauticAlert extends React.Component<{}, RegistrationState> {
                   this.setState({ broadbandVideo: e.currentTarget.checked })
                 }
               />
-              &nbsp; Include Broadband Video + $9.99
+              &nbsp; Include Broadband Video + $14.99
             </label>
             <p className="text-block-19">
               * includes 2GB data
