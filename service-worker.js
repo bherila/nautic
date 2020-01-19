@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/nautic/precache-manifest.04207ea6fca92fe9a3a5493036ba0b70.js"
+  "/nautic/precache-manifest.cdaad5d59ebbe795daa24b214d3f5f96.js"
 );
 
 workbox.clientsClaim();

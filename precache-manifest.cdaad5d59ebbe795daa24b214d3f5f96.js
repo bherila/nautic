@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "47954f2f2dad4cb97bbd",
+    "revision": "987a042a3f1cdde075ce",
     "url": "/nautic/static/css/main.e6118185.chunk.css"
   },
   {
-    "revision": "47954f2f2dad4cb97bbd",
-    "url": "/nautic/static/js/main.47954f2f.chunk.js"
+    "revision": "987a042a3f1cdde075ce",
+    "url": "/nautic/static/js/main.987a042a.chunk.js"
   },
   {
     "revision": "70f3a779b098c4f5c86c",
@@ -16,7 +16,7 @@ self.__precacheManifest = [
     "url": "/nautic/static/js/runtime~main.1086142d.js"
   },
   {
-    "revision": "ea313917d521fc378373271fc85eb81d",
+    "revision": "59c2dd5ca6bcb9f859602f6f5af73656",
     "url": "/nautic/index.html"
   }
 ];
