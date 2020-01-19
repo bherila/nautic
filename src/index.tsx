@@ -4,9 +4,11 @@ import { render } from "react-dom";
 import "./styles.css";
 
 declare var Checkout: any;
+const renderInstallDate = false;
+const renderDealerFields = false;
 
-const isLuhnValid = (function luhn(array: any) {
-  return function(number: any) {
+const isLuhnValid = (function luhn(array) {
+  return function(number) {
     let len = number ? number.length : 0,
       bit = 1,
       sum = 0;
@@ -33,6 +35,7 @@ interface RegistrationState {
   dealerName: string;
   dealerCompany: string;
   showImeiModal: boolean;
+  agreed: boolean;
 }
 
 const wInput = "w-input";
@@ -137,8 +140,26 @@ class NauticAlert extends React.Component<{}, RegistrationState> {
       vesselType: "",
       dealerName: "",
       dealerCompany: "",
-      showImeiModal: false
+      showImeiModal: false,
+      agreed: false
     };
+  }
+
+  saveLocalStorage() {
+    const s = this.state;
+    const storageData = {
+      nsnIMEI: s.imei,
+      nsnDate: s.installDate,
+      nsnVessel: s.vesselName,
+      nsnFname: s.ownerFname,
+      nsnMname: s.ownerMi,
+      nsnLname: s.ownerLname,
+      nsnVesselType: s.vesselType,
+      cellPhone: s.cellNumber
+    };
+    Object.keys(storageData).map(key =>
+      localStorage.setItem(key, storageData[key])
+    );
   }
 
   generateUrlParams() {
@@ -159,7 +180,7 @@ class NauticAlert extends React.Component<{}, RegistrationState> {
   renderPlanOptions(
     planOptions: PlanOption[],
     depth: number,
-    defaultChoice: string | undefined
+    defaultChoice: string
   ) {
     const selectedOption = (this.state.selectedPlan || [])[depth] || "";
     console.log("selectedOption", selectedOption);
@@ -193,10 +214,10 @@ class NauticAlert extends React.Component<{}, RegistrationState> {
               opt.name === selectedOption && (opt.planOptions || []).length > 0
           )
           .map(opt =>
-            opt.planOptions && this.renderPlanOptions(
-              opt.planOptions,
+            this.renderPlanOptions(
+              opt.planOptions || [],
               depth + 1,
-              opt.nextDefaultChoice
+              opt.nextDefaultChoice || ""
             )
           )}
       </React.Fragment>
@@ -247,36 +268,47 @@ class NauticAlert extends React.Component<{}, RegistrationState> {
         </div>
 
         {!!broadbandVideoAddOn[this.getBasePlanId()] && (
-          <label>
-            <input
-              type="checkbox"
-              value="true"
-              checked={this.state.broadbandVideo}
-              onChange={e =>
-                this.setState({ broadbandVideo: e.currentTarget.checked })
-              }
-            />
-            &nbsp; Include Broadband Video + $9.99
-          </label>
+          <React.Fragment>
+            <label>
+              <input
+                type="checkbox"
+                value="true"
+                checked={this.state.broadbandVideo}
+                onChange={e =>
+                  this.setState({ broadbandVideo: e.currentTarget.checked })
+                }
+              />
+              &nbsp; Include Broadband Video + $9.99
+            </label>
+            <p className="text-block-19">
+              * includes 2GB data
+              <br />
+              Unused data does not carry over
+              <br />
+              Additional data usage $7.50 per gb
+              <br />
+              Subscriber is responsible for all usage and charges
+            </p>
+          </React.Fragment>
         )}
-        <br />
-
-        <div>
-          <label>
-            Target Install Date
-            <input
-              className={wInput}
-              type="date"
-              min={new Date().toISOString() as any}
-              placeholder="Target Install Date"
-              value={this.state.installDate || ""}
-              onChange={e =>
-                this.setState({ installDate: e.currentTarget.value })
-              }
-              required={true}
-            />
-          </label>
-        </div>
+        {renderInstallDate && (
+          <div>
+            <label>
+              Target Install Date
+              <input
+                className={wInput}
+                type="date"
+                min={new Date().toISOString() as any}
+                placeholder="Target Install Date"
+                value={this.state.installDate || ""}
+                onChange={e =>
+                  this.setState({ installDate: e.currentTarget.value })
+                }
+                required={true}
+              />
+            </label>
+          </div>
+        )}
 
         <div>
           <label>
@@ -366,30 +398,35 @@ class NauticAlert extends React.Component<{}, RegistrationState> {
             </label>
           ))}
         </div>
+        {renderDealerFields && (
+          <React.Fragment>
+            <div>
+              <label>Dealer or Installer Name (optional)</label>
+              <input
+                className={wInput}
+                type="text"
+                placeholder="Installer Name"
+                value={this.state.dealerName || ""}
+                onChange={e =>
+                  this.setState({ dealerName: e.currentTarget.value })
+                }
+              />
+            </div>
 
-        <div>
-          <label>Dealer or Installer Name (optional)</label>
-          <input
-            className={wInput}
-            type="text"
-            placeholder="Installer Name"
-            value={this.state.dealerName || ""}
-            onChange={e => this.setState({ dealerName: e.currentTarget.value })}
-          />
-        </div>
-
-        <div>
-          <label>Dealer or Installer Company (optional)</label>
-          <input
-            className={wInput}
-            type="text"
-            placeholder="Installer Company"
-            value={this.state.dealerCompany || ""}
-            onChange={e =>
-              this.setState({ dealerCompany: e.currentTarget.value })
-            }
-          />
-        </div>
+            <div>
+              <label>Dealer or Installer Company (optional)</label>
+              <input
+                className={wInput}
+                type="text"
+                placeholder="Installer Company"
+                value={this.state.dealerCompany || ""}
+                onChange={e =>
+                  this.setState({ dealerCompany: e.currentTarget.value })
+                }
+              />
+            </div>
+          </React.Fragment>
+        )}
       </React.Fragment>
     );
   }
@@ -444,15 +481,16 @@ class NauticAlert extends React.Component<{}, RegistrationState> {
   }
 
   render() {
-    const isValid = this.isPlanValid();
+    const isValid = this.isPlanValid() && this.state.agreed;
     return (
       <form onSubmit={e => this.submitForm(e)}>
         {this.state.showImeiModal && this.renderImeiModal()}
-        <div className="quote-form-wrapper new-form w-col-6">
+        <div className="quote-form-wrapper new-form">
           <div className="w-row">
             <div className="w-col w-col-6">{this.renderCol1()}</div>
             <div className="w-col w-col-6">{this.renderCol2()}</div>
           </div>
+          <div className="w-row">{this.renderTerms()}</div>
           <div className="w-row">
             <div className="w-col w-col-12" style={{ textAlign: "center" }}>
               <button
@@ -468,6 +506,41 @@ class NauticAlert extends React.Component<{}, RegistrationState> {
           </div>
         </div>
       </form>
+    );
+  }
+
+  renderTerms() {
+    return (
+      <div>
+        <h3>Terms of Service</h3>
+        <ol style={{ columnCount: 1 }}>
+          {[
+            "Cellular Service requires 24 hours to activate, Monday-Friday.  Activation requests received on Friday activate on Monday.",
+            "Activation Fee is $24.95.  First charge will be the Activation Fee plus the first month on a 3 month minimum subscription.",
+            "A 3-month minimum applies to any Service Plan subscription, upgrade or downgrade.",
+            "Usage above Plan Subscription limits during a month from bill date to bill date will be charged at $ 9.00 per GB in 1 GB increments.",
+            "Unused data does not carry over month to month.",
+            "Plan usage charges will be applied and billed the month following the month in which usage charges are incurred.",
+            "Termination requires 30 day notification and Subscriber is responsible for all charges through this period.",
+            "Complete deactivation of Service will require reactivation and a new Activation Fee will be charged.",
+            "All plans are unthrottled and all usage is the responsibility of the Subscriber of Record.",
+            "Subscribers are responsible for security surrounding access to their Device and all usage.",
+            "High Usage Alert notification is not provided.  Staying within Plan Subscription limits are the sole responsibility of the Subscriber.",
+            "Subscription to any plan acknowledges the above and agreement to these Terms and Conditions.",
+            "‍T-Mobile Coverage Map. Coverage maps are an indicator and not a guarantee of coverage or network access."
+          ].map(i => (
+            <li style={{ fontSize: "10pt" }}>{i}</li>
+          ))}
+        </ol>
+        <label>
+          <input
+            type="checkbox"
+            checked={this.state.agreed || false}
+            onClick={e => this.setState({ agreed: e.currentTarget.checked })}
+          />
+          &nbsp;I agree to the Terms of Service
+        </label>
+      </div>
     );
   }
 
@@ -490,6 +563,7 @@ class NauticAlert extends React.Component<{}, RegistrationState> {
 
   submitForm(e) {
     e.preventDefault();
+    this.saveLocalStorage();
     Checkout.loadButton(this.getSelectedPlanId(), this.generateUrlParams());
   }
 }
