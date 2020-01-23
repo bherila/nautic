@@ -16,7 +16,7 @@ self.__precacheManifest = [
     "url": "/nautic/static/css/main.d917cc93.chunk.css"
   },
   {
-    "revision": "65524280bbe45b2963137264181caef9",
+    "revision": "c4d66011b91e3435053355784889d855",
     "url": "/nautic/index.html"
   }
 ];
