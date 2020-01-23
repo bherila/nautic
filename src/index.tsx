@@ -7,20 +7,6 @@ declare var Checkout: any;
 const renderInstallDate = false;
 const renderDealerFields = false;
 
-const isLuhnValid = (function luhn(array) {
-  return function(number) {
-    let len = number ? number.length : 0,
-      bit = 1,
-      sum = 0;
-
-    while (len--) {
-      sum += !(bit ^= 1) ? parseInt(number[len], 10) : array[number[len]];
-    }
-
-    return sum % 10 === 0 && sum > 0;
-  };
-})([0, 2, 4, 6, 8, 1, 3, 5, 7, 9]);
-
 interface RegistrationState {
   selectedPlan: string[];
   broadbandVideo: boolean;
@@ -122,6 +108,11 @@ const planOptions: PlanOption[] = [
       { name: "Standard", price: 29.99 },
       { name: "CloudWatch", price: 69.99 }
     ]
+  },
+  {
+    name: "Broadband Video Only",
+    price: 14.99,
+    checkoutId: "PLR0V9PRNYVHVUNNCSX7P20621"
   }
 ];
 class NauticAlert extends React.Component<{}, RegistrationState> {
@@ -280,15 +271,6 @@ class NauticAlert extends React.Component<{}, RegistrationState> {
               />
               &nbsp; Include Broadband Video + $14.99
             </label>
-            <p className="text-block-19">
-              * includes 2GB data
-              <br />
-              Unused data does not carry over
-              <br />
-              Additional data usage $7.50 per gb
-              <br />
-              Subscriber is responsible for all usage and charges
-            </p>
           </React.Fragment>
         )}
         {renderInstallDate && (
@@ -512,7 +494,9 @@ class NauticAlert extends React.Component<{}, RegistrationState> {
   renderTerms() {
     return (
       <div>
-        <h3>Terms of Service</h3>
+        <h3 style={{ fontSize: "10pt" }}>
+          Terms of Service / Broadband Video Terms of Use
+        </h3>
         <ol style={{ columnCount: 1 }}>
           {[
             "Cellular Service requires 24 hours to activate, Monday-Friday.  Activation requests received on Friday activate on Monday.",
@@ -527,11 +511,17 @@ class NauticAlert extends React.Component<{}, RegistrationState> {
             "Subscribers are responsible for security surrounding access to their Device and all usage.",
             "High Usage Alert notification is not provided.  Staying within Plan Subscription limits are the sole responsibility of the Subscriber.",
             "Subscription to any plan acknowledges the above and agreement to these Terms and Conditions.",
-            "‍T-Mobile Coverage Map. Coverage maps are an indicator and not a guarantee of coverage or network access."
+            coverageMapTerm,
+            "Broadband video inclues 2 GB of data. Unused data does not carry over."
           ].map(i => (
             <li style={{ fontSize: "10pt" }}>{i}</li>
           ))}
         </ol>
+        {/* <p>Broadband video terms of use</p>
+        <ol>
+          <li>Includes 2 GB of data.</li>
+          <li>Unused data does not carry over.</li>
+        </ol> */}
         <label>
           <input
             type="checkbox"
@@ -567,6 +557,37 @@ class NauticAlert extends React.Component<{}, RegistrationState> {
     Checkout.loadButton(this.getSelectedPlanId(), this.generateUrlParams());
   }
 }
+
+const isLuhnValid = (function luhn(array) {
+  return function(number) {
+    let len = number ? number.length : 0,
+      bit = 1,
+      sum = 0;
+
+    while (len--) {
+      sum += !(bit ^= 1) ? parseInt(number[len], 10) : array[number[len]];
+    }
+
+    return sum % 10 === 0 && sum > 0;
+  };
+})([0, 2, 4, 6, 8, 1, 3, 5, 7, 9]);
+
+const coverageMapTerm = (
+  <React.Fragment>
+    <b>
+      <a
+        href="https://www.t-mobile.com/coverage/coverage-map"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        T-Mobile Coverage Map
+      </a>
+      .&nbsp;
+    </b>
+    Coverage maps are an indicator and not a guarantee of coverage or network
+    access.
+  </React.Fragment>
+);
 
 const rootElement = document.getElementById("root");
 render(<NauticAlert />, rootElement);
