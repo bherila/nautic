@@ -6,6 +6,7 @@ import "./styles.css";
 declare var Checkout: any;
 const renderInstallDate = false;
 const renderDealerFields = false;
+const renderVesselType = false;
 
 interface RegistrationState {
   selectedPlan: string[];
@@ -106,6 +107,7 @@ const planOptions: PlanOption[] = [
     nextDefaultChoice: "Choose Your Service",
     planOptions: [
       { name: "Standard", price: 29.99 },
+      { name: "Enhanced", price: 49.99 },
       { name: "CloudWatch", price: 69.99 }
     ]
   },
@@ -269,7 +271,7 @@ class NauticAlert extends React.Component<{}, RegistrationState> {
                   this.setState({ broadbandVideo: e.currentTarget.checked })
                 }
               />
-              &nbsp; Include Broadband Video + $14.99
+              &nbsp; Add Broadband Video + $14.99
             </label>
           </React.Fragment>
         )}
@@ -292,7 +294,7 @@ class NauticAlert extends React.Component<{}, RegistrationState> {
           </div>
         )}
 
-        <div>
+        <div style={{ marginTop: "25px" }}>
           <label>
             Device IMEI Number{" "}
             <button
@@ -362,24 +364,26 @@ class NauticAlert extends React.Component<{}, RegistrationState> {
           />
         </div>
 
-        <div>
-          <label>Vessel Type</label>
-          {["Sail", "Powered", "N/A"].map(typ => (
-            <label>
-              <input
-                type="radio"
-                name="vesselType"
-                value={typ}
-                checked={typ === this.state.vesselType}
-                onChange={e =>
-                  this.setState({ vesselType: e.currentTarget.value })
-                }
-              />
-              &nbsp;
-              {typ}
-            </label>
-          ))}
-        </div>
+        {renderVesselType && (
+          <div>
+            <label>Vessel Type</label>
+            {["Sail", "Powered", "N/A"].map(typ => (
+              <label>
+                <input
+                  type="radio"
+                  name="vesselType"
+                  value={typ}
+                  checked={typ === this.state.vesselType}
+                  onChange={e =>
+                    this.setState({ vesselType: e.currentTarget.value })
+                  }
+                />
+                &nbsp;
+                {typ}
+              </label>
+            ))}
+          </div>
+        )}
         {renderDealerFields && (
           <React.Fragment>
             <div>
@@ -494,8 +498,17 @@ class NauticAlert extends React.Component<{}, RegistrationState> {
   renderTerms() {
     return (
       <div>
-        <h3 style={{ fontSize: "10pt" }}>
-          Terms of Service / Broadband Video Terms of Use
+        <h3 style={{ fontSize: "15pt" }}>Terms of Service</h3>
+        <h3 style={{ fontSize: "10pt", margin: 0 }}>Satellite</h3>
+        <ol>
+          <li>Usage above Plan selected is billed at $1.89 per kb.</li>
+          <li>
+            Charges will be applied and billed the month following that in which
+            charges are incurred.
+          </li>
+        </ol>
+        <h3 style={{ fontSize: "10pt", margin: 0 }}>
+          Cellular and Broadband Video
         </h3>
         <ol style={{ columnCount: 1 }}>
           {[
