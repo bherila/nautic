@@ -79,7 +79,7 @@ export const nauticAlertPlanOptions: PlanOption[] = [
       },
       {
         name: "Enhanced",
-        price: 49.99,
+        price: 44.99,
         checkoutId: "PCQHDF1U45B73TRDO4P3P20692"
       },
       {
