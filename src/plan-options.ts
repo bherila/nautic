@@ -13,7 +13,10 @@ export const nauticAlertBroadbandVideo = {
   KK0HFNXPQLPQHDDUZDYPP14535: "3EPAD13DMVJ2RJEF0SUWP20551",
   QO4NVC6WY2G48VME7TDLP17805: "UX3Q99GLJVPYPKR1XJX0P20553",
   HDEW8K3SLND25KAUC6VTP17806: "2QJDBGDG9XUFMS0TYE4FP20554",
-  PQNXPQMUDCM1DSQBF7PWP17807: "UWZ5UQ3CHFQABQN1979RP20555"
+  PQNXPQMUDCM1DSQBF7PWP17807: "UWZ5UQ3CHFQABQN1979RP20555",
+  PCQHDF1U45B73TRDO4P3P20692: "1KR1ZT2XD6SA60LS6LD7P20693",
+  PXJWVMGKD6SBDU56J1M0P16752: "J430T0N72SNUAXS36OSUP20557",
+  "1O6X4USFUW09D3DMWPSSP16751": "BF6OQP852W8K2N1850LUP20556"
 };
 
 export const nauticAlertPlanOptions: PlanOption[] = [
@@ -69,9 +72,21 @@ export const nauticAlertPlanOptions: PlanOption[] = [
     name: "VTracker",
     nextDefaultChoice: "Choose Your Service",
     planOptions: [
-      { name: "Standard", price: 29.99 },
-      { name: "Enhanced", price: 49.99 },
-      { name: "CloudWatch", price: 69.99 }
+      {
+        name: "Standard",
+        price: 29.99,
+        checkoutId: "PXJWVMGKD6SBDU56J1M0P16752"
+      },
+      {
+        name: "Enhanced",
+        price: 49.99,
+        checkoutId: "PCQHDF1U45B73TRDO4P3P20692"
+      },
+      {
+        name: "CloudWatch",
+        price: 69.99,
+        checkoutId: "1O6X4USFUW09D3DMWPSSP16751"
+      }
     ]
   },
   {
