@@ -70,7 +70,7 @@ export default class RegistrationForm extends React.Component<
       cellPhone: s.cellNumber
     };
     Object.keys(storageData).map(key =>
-      localStorage.setItem(key, storageData[key])
+      sessionStorage.setItem(key, storageData[key])
     );
   }
 
