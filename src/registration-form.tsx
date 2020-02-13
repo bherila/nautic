@@ -68,7 +68,9 @@ export default class RegistrationForm extends React.Component<
       nsnLname: s.ownerLname,
       nsnVesselType: s.vesselType,
       cellPhone: s.cellNumber,
-      nsnSubscriptionPlan: s.selectedPlan.join(":")
+      nsnSubscriptionPlan:
+        s.selectedPlan.join(":") +
+        (s.broadbandVideo ? " + broadband video" : "")
     };
     Object.keys(storageData).map(key =>
       sessionStorage.setItem(key, storageData[key])
