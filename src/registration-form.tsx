@@ -22,6 +22,8 @@ declare var Checkout: any;
 
 const wInput = "w-input";
 
+const required = <span style={{ color: "red" }}>*</span>;
+
 const linkStyle = {
   color: "blue",
   textDecoration: "underline",
@@ -142,7 +144,7 @@ export default class RegistrationForm extends React.Component<
   renderName() {
     return (
       <div>
-        <label>Vessel Owner's Full Name</label>
+        <label>Vessel Owner's Full Name {required}</label>
         <input
           className={wInput}
           type="text"
@@ -179,7 +181,7 @@ export default class RegistrationForm extends React.Component<
     return (
       <React.Fragment>
         <div>
-          <label>Plan Options</label>
+          <label>Plan Options {required}</label>
           {this.renderPlanOptions(planOptions, 0, "Select Your Device")}
         </div>
 
@@ -201,7 +203,7 @@ export default class RegistrationForm extends React.Component<
         {renderInstallDate && (
           <div>
             <label>
-              Target Install Date
+              Target Install Date {required}
               <input
                 className={wInput}
                 type="date"
@@ -219,7 +221,7 @@ export default class RegistrationForm extends React.Component<
 
         <div style={{ marginTop: "25px" }}>
           <label>
-            Device IMEI Number{" "}
+            Device IMEI Number {required}
             <button
               type="button"
               onClick={e => this.setState({ showImeiModal: true })}
@@ -239,12 +241,25 @@ export default class RegistrationForm extends React.Component<
             />
           </label>
         </div>
-        {this.state.ownerFname.length > 1 &&
+        {this.state.imei.length > 14 &&
           !isLuhnValid(this.state.imei.split("")) && (
             <p style={{ color: "maroon" }}>
               Please double check IMEI, it is likely invalid :(
             </p>
           )}
+        <label>
+          Device ICCID {required}
+          <input
+            className={wInput}
+            type="tel"
+            name="iccid"
+            autoComplete="off"
+            placeholder="ICCID"
+            value={this.state.iccid || ""}
+            onChange={e => this.setState({ iccid: e.currentTarget.value })}
+            required={true}
+          />
+        </label>
         <p className="text-block-19">
           Nearshorenetworks will not share your information with others. All
           credit card information is stored by our Secure Transaction process
@@ -277,7 +292,7 @@ export default class RegistrationForm extends React.Component<
         </div>
 
         <div>
-          <label>Cell Phone Number</label>
+          <label>Cell Phone Number {required}</label>
           <input
             className={wInput}
             type="tel"
