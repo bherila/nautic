@@ -4,6 +4,7 @@ export interface PlanOption {
   nextDefaultChoice?: string;
   price?: number;
   checkoutId?: string;
+  enableIccId?: boolean;
 }
 
 export const nauticAlertBroadbandVideo = {
@@ -27,12 +28,14 @@ export const nauticAlertPlanOptions: PlanOption[] = [
       {
         name: "Reporting Service 4G LTE Standard",
         price: 14.99,
-        checkoutId: "5C73RJC6X0BN61N2EXARP14532"
+        checkoutId: "5C73RJC6X0BN61N2EXARP14532",
+        enableIccId: true
       },
       {
         name: "Reporting Service 4G LTE Enhanced",
         price: 19.99,
-        checkoutId: "UX3PAAODXHR8XWPSSOZWP14533"
+        checkoutId: "UX3PAAODXHR8XWPSSOZWP14533",
+        enableIccId: true
       }
     ]
   },
@@ -92,6 +95,7 @@ export const nauticAlertPlanOptions: PlanOption[] = [
   {
     name: "Broadband Video Only",
     price: 14.99,
-    checkoutId: "PLR0V9PRNYVHVUNNCSX7P20621"
+    checkoutId: "PLR0V9PRNYVHVUNNCSX7P20621",
+    enableIccId: true
   }
 ];
