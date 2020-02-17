@@ -1,13 +1,13 @@
 {
   "main.css": "/nautic/static/css/main.ec7ad5c0.chunk.css",
-  "main.js": "/nautic/static/js/main.c1ba9b35.chunk.js",
-  "main.js.map": "/nautic/static/js/main.c1ba9b35.chunk.js.map",
+  "main.js": "/nautic/static/js/main.23816267.chunk.js",
+  "main.js.map": "/nautic/static/js/main.23816267.chunk.js.map",
   "static/js/1.4cb90723.chunk.js": "/nautic/static/js/1.4cb90723.chunk.js",
   "static/js/1.4cb90723.chunk.js.map": "/nautic/static/js/1.4cb90723.chunk.js.map",
   "runtime~main.js": "/nautic/static/js/runtime~main.1086142d.js",
   "runtime~main.js.map": "/nautic/static/js/runtime~main.1086142d.js.map",
   "static/css/main.ec7ad5c0.chunk.css.map": "/nautic/static/css/main.ec7ad5c0.chunk.css.map",
   "index.html": "/nautic/index.html",
-  "precache-manifest.b61560e3b09bcf54d09d4c76df2e6353.js": "/nautic/precache-manifest.b61560e3b09bcf54d09d4c76df2e6353.js",
+  "precache-manifest.dc94cfda4bf527f9485c9f575456fbb4.js": "/nautic/precache-manifest.dc94cfda4bf527f9485c9f575456fbb4.js",
   "service-worker.js": "/nautic/service-worker.js"
 }
