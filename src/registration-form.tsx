@@ -59,7 +59,7 @@ export default class RegistrationForm extends React.Component<
       dealerCompany: "",
       showImeiModal: false,
       agreed: false,
-      iccId: null
+      iccId: ""
     };
   }
 
