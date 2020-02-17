@@ -261,11 +261,6 @@ export default class RegistrationForm extends React.Component<
           credit card information is stored by our Secure Transaction process
           provider, Stripe.
         </p>
-        <p className="text-block-19">
-          Usage above Plan selected is billed at $ 1.89 per kb. These charges
-          will be applied and billed the month following that in which charges
-          are incurred.
-        </p>
       </React.Fragment>
     );
   }
