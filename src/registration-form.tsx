@@ -2,6 +2,8 @@ import * as React from "react";
 import { PlanOption } from "./plan-options";
 import "./styles.css";
 
+const getPlanOptionById: { [key: string]: PlanOption } = {};
+
 interface RegistrationState {
   selectedPlan: string[];
   broadbandVideo: boolean;
@@ -17,6 +19,7 @@ interface RegistrationState {
   dealerCompany: string;
   showImeiModal: boolean;
   agreed: boolean;
+  iccId: string;
 }
 declare var Checkout: any;
 
@@ -55,7 +58,8 @@ export default class RegistrationForm extends React.Component<
       dealerName: "",
       dealerCompany: "",
       showImeiModal: false,
-      agreed: false
+      agreed: false,
+      iccId: null
     };
   }
 
@@ -70,6 +74,7 @@ export default class RegistrationForm extends React.Component<
       nsnLname: s.ownerLname,
       nsnVesselType: s.vesselType,
       cellPhone: s.cellNumber,
+      nsnICCID: s.iccId || "",
       nsnSubscriptionPlan:
         s.selectedPlan.join(":") +
         (s.broadbandVideo ? " + broadband video" : "")
@@ -114,15 +119,18 @@ export default class RegistrationForm extends React.Component<
           }}
         >
           <option>{defaultChoice || "Select One"}</option>
-          {planOptions.map(opt => (
-            <option
-              value={opt.checkoutId || opt.name}
-              selected={opt.name === selectedOption}
-            >
-              {opt.name}
-              {!!opt.price && opt.price > 0 && " - $" + opt.price.toFixed(2)}
-            </option>
-          ))}
+          {planOptions.map(opt => {
+            getPlanOptionById[opt.checkoutId || opt.name] = opt;
+            return (
+              <option
+                value={opt.checkoutId || opt.name}
+                selected={opt.name === selectedOption}
+              >
+                {opt.name}
+                {!!opt.price && opt.price > 0 && " - $" + opt.price.toFixed(2)}
+              </option>
+            );
+          })}
         </select>
         {/*Render sub-options*/}
         {planOptions
@@ -138,6 +146,33 @@ export default class RegistrationForm extends React.Component<
             )
           )}
       </React.Fragment>
+    );
+  }
+
+  renderIccid() {
+    if (!this.state.broadbandVideo) {
+      const sp = this.state.selectedPlan;
+      const plan = getPlanOptionById[sp[sp.length - 1]];
+      if (!plan || !plan.enableIccId) {
+        return false;
+      }
+    }
+    return (
+      <div>
+        <label>
+          ICCID (19 digits) {required}
+          <input
+            className={wInput}
+            type="tel"
+            placeholder="Enter SIM ICCID"
+            value={this.state.iccId}
+            onChange={e => this.setState({ iccId: e.currentTarget.value })}
+            required={true}
+            minLength={19}
+            maxLength={20}
+          />
+        </label>
+      </div>
     );
   }
 
@@ -219,47 +254,8 @@ export default class RegistrationForm extends React.Component<
           </div>
         )}
 
-        <div style={{ marginTop: "25px" }}>
-          <label>
-            Device IMEI Number {required}
-            <button
-              type="button"
-              onClick={e => this.setState({ showImeiModal: true })}
-              style={linkStyle}
-            >
-              How do I find my IMEI?
-            </button>
-            <input
-              className={wInput}
-              type="tel"
-              name="imei"
-              autoComplete="off"
-              placeholder="IMEI / MEID"
-              value={this.state.imei || ""}
-              onChange={e => this.setState({ imei: e.currentTarget.value })}
-              required={true}
-            />
-          </label>
-        </div>
-        {this.state.imei.length > 14 &&
-          !isLuhnValid(this.state.imei.split("")) && (
-            <p style={{ color: "maroon" }}>
-              Please double check IMEI, it is likely invalid :(
-            </p>
-          )}
-        <label>
-          Device ICCID {required}
-          <input
-            className={wInput}
-            type="tel"
-            name="iccid"
-            autoComplete="off"
-            placeholder="ICCID"
-            value={this.state.iccid || ""}
-            onChange={e => this.setState({ iccid: e.currentTarget.value })}
-            required={true}
-          />
-        </label>
+        {this.renderImeiField()}
+        {this.renderIccid()}
         <p className="text-block-19">
           Nearshorenetworks will not share your information with others. All
           credit card information is stored by our Secure Transaction process
@@ -352,6 +348,41 @@ export default class RegistrationForm extends React.Component<
             </div>
           </React.Fragment>
         )}
+      </React.Fragment>
+    );
+  }
+
+  renderImeiField() {
+    return (
+      <React.Fragment>
+        <div style={{ marginTop: "25px" }}>
+          <label>
+            Device IMEI Number {required}
+            <button
+              type="button"
+              onClick={e => this.setState({ showImeiModal: true })}
+              style={linkStyle}
+            >
+              How do I find my IMEI?
+            </button>
+            <input
+              className={wInput}
+              type="tel"
+              name="imei"
+              autoComplete="off"
+              placeholder="IMEI / MEID"
+              value={this.state.imei || ""}
+              onChange={e => this.setState({ imei: e.currentTarget.value })}
+              required={true}
+            />
+          </label>
+        </div>
+        {this.state.imei.length > 14 &&
+          !isLuhnValid(this.state.imei.split("")) && (
+            <p style={{ color: "maroon" }}>
+              Please double check IMEI, it is likely invalid :(
+            </p>
+          )}
       </React.Fragment>
     );
   }
