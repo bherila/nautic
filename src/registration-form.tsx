@@ -372,7 +372,7 @@ export default class RegistrationForm extends React.Component<
             />
           </label>
         </div>
-        {this.state.imei.length > 14 &&
+        {this.state.imei.length > 15 &&
           !isLuhnValid(this.state.imei.split("")) && (
             <p style={{ color: "maroon" }}>
               Please double check IMEI, it is likely invalid :(
@@ -465,17 +465,17 @@ export default class RegistrationForm extends React.Component<
       <div>
         <h3 style={{ fontSize: "15pt" }}>Terms of Service</h3>
         <h3 style={{ fontSize: "10pt", margin: 0 }}>Satellite</h3>
-        <ol>
+        <ul>
           <li>Usage above Plan selected is billed at $1.89 per kb.</li>
           <li>
             Charges will be applied and billed the month following that in which
             charges are incurred.
           </li>
-        </ol>
+        </ul>
         <h3 style={{ fontSize: "10pt", margin: 0 }}>
           Cellular and Broadband Video
         </h3>
-        <ol style={{ columnCount: 1 }}>
+        <ul style={{ columnCount: 1 }}>
           {[
             "Cellular Service requires 24 hours to activate, Monday-Friday.  Activation requests received on Friday activate on Monday.",
             "Activation Fee is $24.95.  First charge will be the Activation Fee plus the first month on a 3 month minimum subscription.",
@@ -490,11 +490,16 @@ export default class RegistrationForm extends React.Component<
             "High Usage Alert notification is not provided.  Staying within Plan Subscription limits are the sole responsibility of the Subscriber.",
             "Subscription to any plan acknowledges the above and agreement to these Terms and Conditions.",
             coverageMapTerm,
-            "Broadband video inclues 2 GB of data. Unused data does not carry over."
+            "Broadband video includes 2 GB of data. Unused data does not carry over.",
+            "Additional cellular usage above plan is billed in GB increments at $9 per GB.",
+            "Travel outside the US and Canada can result in additional cellular usage charges and are authorized by subscribing to this service.",
+            "Connection is NOT guaranteed at any time and conditions based on proximity to cellular towers as well as weather conditions affect quality of service.",
+            "Travel outside the US and Canada can result in additional charges and are authorized by subscribing to this service.",
+            "No connectivity outside the US is guaranteed or warranted.",
           ].map(i => (
             <li style={{ fontSize: "10pt" }}>{i}</li>
           ))}
-        </ol>
+        </ul>
         {/* <p>Broadband video terms of use</p>
         <ol>
           <li>Includes 2 GB of data.</li>
@@ -552,18 +557,21 @@ const isLuhnValid = (function luhn(array) {
   };
 })([0, 2, 4, 6, 8, 1, 3, 5, 7, 9]);
 
+const tMobileCoverageMap = (() => (
+    <b>
+        <a
+            href="https://www.t-mobile.com/coverage/coverage-map"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            T-Mobile Coverage Map
+        </a>
+        .&nbsp;
+    </b>
+));
+
 const coverageMapTerm = (
   <React.Fragment>
-    <b>
-      <a
-        href="https://www.t-mobile.com/coverage/coverage-map"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        T-Mobile Coverage Map
-      </a>
-      .&nbsp;
-    </b>
     Coverage maps are an indicator and not a guarantee of coverage or network
     access.
   </React.Fragment>
