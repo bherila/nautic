@@ -462,7 +462,7 @@ export default class RegistrationForm extends React.Component<
 
   renderTerms() {
     return (
-      <div>
+      <div style={{textAlign: 'left'}}>
         <h3 style={{ fontSize: "15pt" }}>Terms of Service</h3>
         <h3 style={{ fontSize: "10pt", margin: 0 }}>Satellite</h3>
         <ul>
