@@ -3,6 +3,8 @@ import { PlanOption } from "./plan-options";
 import "./styles.css";
 
 const getPlanOptionById: { [key: string]: PlanOption } = {};
+const headingSize = "15pt";
+const bodySize = "10pt";
 
 interface RegistrationState {
   selectedPlan: string[];
@@ -30,7 +32,7 @@ const required = <span style={{ color: "red" }}>*</span>;
 const linkStyle = {
   color: "blue",
   textDecoration: "underline",
-  background: "transparent"
+  background: "transparent",
 };
 export default class RegistrationForm extends React.Component<
   {
@@ -59,7 +61,7 @@ export default class RegistrationForm extends React.Component<
       dealerCompany: "",
       showImeiModal: false,
       agreed: false,
-      iccId: ""
+      iccId: "",
     };
   }
 
@@ -77,16 +79,16 @@ export default class RegistrationForm extends React.Component<
       nsnICCID: s.iccId || "",
       nsnSubscriptionPlan:
         s.selectedPlan.join(":") +
-        (s.broadbandVideo ? " + broadband video" : "")
+        (s.broadbandVideo ? " + broadband video" : ""),
     };
-    Object.keys(storageData).map(key =>
+    Object.keys(storageData).map((key) =>
       sessionStorage.setItem(key, storageData[key])
     );
   }
 
   generateUrlParams() {
     const keys = Object.keys(this.state);
-    return keys.map(key => key + "=" + encodeURI(this.state[key])).join("&");
+    return keys.map((key) => key + "=" + encodeURI(this.state[key])).join("&");
   }
 
   textBox(title, placeholder, value, onChange) {
@@ -110,7 +112,7 @@ export default class RegistrationForm extends React.Component<
       <React.Fragment>
         <select
           className={wInput}
-          onChange={e => {
+          onChange={(e) => {
             const selectedPlan = this.state.selectedPlan.slice(0);
             while (selectedPlan.length <= depth) selectedPlan.push("");
             selectedPlan[depth] = e.currentTarget.value;
@@ -119,7 +121,7 @@ export default class RegistrationForm extends React.Component<
           }}
         >
           <option>{defaultChoice || "Select One"}</option>
-          {planOptions.map(opt => {
+          {planOptions.map((opt) => {
             getPlanOptionById[opt.checkoutId || opt.name] = opt;
             return (
               <option
@@ -135,10 +137,10 @@ export default class RegistrationForm extends React.Component<
         {/*Render sub-options*/}
         {planOptions
           .filter(
-            opt =>
+            (opt) =>
               opt.name === selectedOption && (opt.planOptions || []).length > 0
           )
-          .map(opt =>
+          .map((opt) =>
             this.renderPlanOptions(
               opt.planOptions || [],
               depth + 1,
@@ -166,7 +168,7 @@ export default class RegistrationForm extends React.Component<
             type="tel"
             placeholder="Enter SIM ICCID"
             value={this.state.iccId}
-            onChange={e => this.setState({ iccId: e.currentTarget.value })}
+            onChange={(e) => this.setState({ iccId: e.currentTarget.value })}
             required={true}
             minLength={19}
             maxLength={20}
@@ -186,7 +188,7 @@ export default class RegistrationForm extends React.Component<
           placeholder="First Name"
           autoComplete="First"
           value={this.state.ownerFname || ""}
-          onChange={e => this.setState({ ownerFname: e.currentTarget.value })}
+          onChange={(e) => this.setState({ ownerFname: e.currentTarget.value })}
           required={true}
           style={{ width: "60%", display: "inline-block" }}
         />
@@ -196,7 +198,7 @@ export default class RegistrationForm extends React.Component<
           type="text"
           placeholder="MI (Optional)"
           value={this.state.ownerMi || ""}
-          onChange={e => this.setState({ ownerMi: e.currentTarget.value })}
+          onChange={(e) => this.setState({ ownerMi: e.currentTarget.value })}
           style={{ width: "35%", display: "inline-block" }}
         />
         <input
@@ -204,7 +206,7 @@ export default class RegistrationForm extends React.Component<
           type="text"
           placeholder="Last Name"
           value={this.state.ownerLname || ""}
-          onChange={e => this.setState({ ownerLname: e.currentTarget.value })}
+          onChange={(e) => this.setState({ ownerLname: e.currentTarget.value })}
           required={true}
         />
       </div>
@@ -227,7 +229,7 @@ export default class RegistrationForm extends React.Component<
                 type="checkbox"
                 value="true"
                 checked={this.state.broadbandVideo}
-                onChange={e =>
+                onChange={(e) =>
                   this.setState({ broadbandVideo: e.currentTarget.checked })
                 }
               />
@@ -245,7 +247,7 @@ export default class RegistrationForm extends React.Component<
                 min={new Date().toISOString() as any}
                 placeholder="Target Install Date"
                 value={this.state.installDate || ""}
-                onChange={e =>
+                onChange={(e) =>
                   this.setState({ installDate: e.currentTarget.value })
                 }
                 required={true}
@@ -278,7 +280,9 @@ export default class RegistrationForm extends React.Component<
             type="text"
             placeholder="Vessel Name"
             value={this.state.vesselName || ""}
-            onChange={e => this.setState({ vesselName: e.currentTarget.value })}
+            onChange={(e) =>
+              this.setState({ vesselName: e.currentTarget.value })
+            }
           />
         </div>
 
@@ -289,7 +293,9 @@ export default class RegistrationForm extends React.Component<
             type="tel"
             placeholder="(xxx) xxx-xxxx"
             value={this.state.cellNumber || ""}
-            onChange={e => this.setState({ cellNumber: e.currentTarget.value })}
+            onChange={(e) =>
+              this.setState({ cellNumber: e.currentTarget.value })
+            }
             required={true}
           />
         </div>
@@ -297,14 +303,14 @@ export default class RegistrationForm extends React.Component<
         {renderVesselType && (
           <div>
             <label>Vessel Type</label>
-            {["Sail", "Powered", "N/A"].map(typ => (
+            {["Sail", "Powered", "N/A"].map((typ) => (
               <label>
                 <input
                   type="radio"
                   name="vesselType"
                   value={typ}
                   checked={typ === this.state.vesselType}
-                  onChange={e =>
+                  onChange={(e) =>
                     this.setState({ vesselType: e.currentTarget.value })
                   }
                 />
@@ -323,7 +329,7 @@ export default class RegistrationForm extends React.Component<
                 type="text"
                 placeholder="Installer Name"
                 value={this.state.dealerName || ""}
-                onChange={e =>
+                onChange={(e) =>
                   this.setState({ dealerName: e.currentTarget.value })
                 }
               />
@@ -336,7 +342,7 @@ export default class RegistrationForm extends React.Component<
                 type="text"
                 placeholder="Installer Company"
                 value={this.state.dealerCompany || ""}
-                onChange={e =>
+                onChange={(e) =>
                   this.setState({ dealerCompany: e.currentTarget.value })
                 }
               />
@@ -355,7 +361,7 @@ export default class RegistrationForm extends React.Component<
             Device IMEI Number {required}
             <button
               type="button"
-              onClick={e => this.setState({ showImeiModal: true })}
+              onClick={(e) => this.setState({ showImeiModal: true })}
               style={linkStyle}
             >
               How do I find my IMEI?
@@ -367,7 +373,7 @@ export default class RegistrationForm extends React.Component<
               autoComplete="off"
               placeholder="IMEI / MEID"
               value={this.state.imei || ""}
-              onChange={e => this.setState({ imei: e.currentTarget.value })}
+              onChange={(e) => this.setState({ imei: e.currentTarget.value })}
               required={true}
             />
           </label>
@@ -396,12 +402,13 @@ export default class RegistrationForm extends React.Component<
           right: "30%",
           zIndex: 1000,
           background: "#fff",
-          padding: "4rem"
+          padding: "4rem",
+          fontSize: bodySize,
         }}
       >
         <button
-          style={{ float: "right", fontWeight: "bold", fontSize: "20px" }}
-          onClick={e => this.setState({ showImeiModal: false })}
+          style={{ float: "right", fontWeight: "bold", fontSize: headingSize }}
+          onClick={(e) => this.setState({ showImeiModal: false })}
         >
           X
         </button>
@@ -424,7 +431,7 @@ export default class RegistrationForm extends React.Component<
           style={{
             paddingTop: "10px",
             marginLeft: "auto",
-            marginRight: "auto"
+            marginRight: "auto",
           }}
         />
       </div>
@@ -434,7 +441,7 @@ export default class RegistrationForm extends React.Component<
   render() {
     const isValid = this.isPlanValid() && this.state.agreed;
     return (
-      <form onSubmit={e => this.submitForm(e)}>
+      <form style={{ fontSize: bodySize }} onSubmit={(e) => this.submitForm(e)}>
         {this.state.showImeiModal && this.renderImeiModal()}
         <div className="quote-form-wrapper new-form">
           <div className="w-row">
@@ -462,20 +469,20 @@ export default class RegistrationForm extends React.Component<
 
   renderTerms() {
     return (
-      <div style={{textAlign: 'left'}}>
-        <h3 style={{ fontSize: "15pt" }}>Terms of Service</h3>
-        <h3 style={{ fontSize: "10pt", margin: 0 }}>Satellite</h3>
-        <ul>
+      <div style={{ textAlign: "left" }}>
+        <h3 style={{ fontSize: headingSize }}>Terms of Service</h3>
+        <h3 style={{ fontSize: bodySize, margin: 0 }}>Satellite</h3>
+        <ul style={{ fontSize: bodySize }}>
           <li>Usage above Plan selected is billed at $1.89 per kb.</li>
           <li>
             Charges will be applied and billed the month following that in which
             charges are incurred.
           </li>
         </ul>
-        <h3 style={{ fontSize: "10pt", margin: 0 }}>
+        <h3 style={{ fontSize: bodySize, margin: 0 }}>
           Cellular and Broadband Video
         </h3>
-        <ul style={{ columnCount: 1 }}>
+        <ul style={{ columnCount: 1, fontSize: bodySize }}>
           {[
             "Cellular Service requires 24 hours to activate, Monday-Friday.  Activation requests received on Friday activate on Monday.",
             "Activation Fee is $24.95.  First charge will be the Activation Fee plus the first month on a 3 month minimum subscription.",
@@ -496,20 +503,15 @@ export default class RegistrationForm extends React.Component<
             "Connection is NOT guaranteed at any time and conditions based on proximity to cellular towers as well as weather conditions affect quality of service.",
             "Travel outside the US and Canada can result in additional charges and are authorized by subscribing to this service.",
             "No connectivity outside the US is guaranteed or warranted.",
-          ].map(i => (
-            <li style={{ fontSize: "10pt" }}>{i}</li>
+          ].map((i) => (
+            <li style={{ fontSize: bodySize }}>{i}</li>
           ))}
         </ul>
-        {/* <p>Broadband video terms of use</p>
-        <ol>
-          <li>Includes 2 GB of data.</li>
-          <li>Unused data does not carry over.</li>
-        </ol> */}
-        <label>
+        <label style={{ fontSize: bodySize }}>
           <input
             type="checkbox"
             checked={this.state.agreed || false}
-            onClick={e => this.setState({ agreed: e.currentTarget.checked })}
+            onClick={(e) => this.setState({ agreed: e.currentTarget.checked })}
           />
           &nbsp;I agree to the Terms of Service
         </label>
@@ -544,7 +546,7 @@ export default class RegistrationForm extends React.Component<
 }
 
 const isLuhnValid = (function luhn(array) {
-  return function(number) {
+  return function (number) {
     let len = number ? number.length : 0,
       bit = 1,
       sum = 0;
@@ -557,18 +559,18 @@ const isLuhnValid = (function luhn(array) {
   };
 })([0, 2, 4, 6, 8, 1, 3, 5, 7, 9]);
 
-const tMobileCoverageMap = (() => (
-    <b>
-        <a
-            href="https://www.t-mobile.com/coverage/coverage-map"
-            target="_blank"
-            rel="noopener noreferrer"
-        >
-            T-Mobile Coverage Map
-        </a>
-        .&nbsp;
-    </b>
-));
+const tMobileCoverageMap = () => (
+  <b>
+    <a
+      href="https://www.t-mobile.com/coverage/coverage-map"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      T-Mobile Coverage Map
+    </a>
+    .&nbsp;
+  </b>
+);
 
 const coverageMapTerm = (
   <React.Fragment>

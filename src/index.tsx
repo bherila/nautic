@@ -2,7 +2,7 @@ import * as React from "react";
 import { render } from "react-dom";
 import {
   nauticAlertPlanOptions,
-  nauticAlertBroadbandVideo
+  nauticAlertBroadbandVideo,
 } from "./plan-options";
 import RegistrationForm from "./registration-form";
 
