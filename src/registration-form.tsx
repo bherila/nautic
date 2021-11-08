@@ -3,8 +3,8 @@ import { PlanOption } from "./plan-options";
 import "./styles.css";
 
 const getPlanOptionById: { [key: string]: PlanOption } = {};
-const headingSize = "15pt";
-const bodySize = "10pt";
+const headingSize = "21px";
+const bodySize = "17px";
 
 interface RegistrationState {
   selectedPlan: string[];
@@ -258,7 +258,7 @@ export default class RegistrationForm extends React.Component<
 
         {this.renderImeiField()}
         {this.renderIccid()}
-        <p className="text-block-19">
+        <p>
           Nearshorenetworks will not share your information with others. All
           credit card information is stored by our Secure Transaction process
           provider, Stripe.
@@ -473,8 +473,8 @@ export default class RegistrationForm extends React.Component<
         <h3 style={{ fontSize: headingSize }}>Terms of Service</h3>
         <h3 style={{ fontSize: bodySize, margin: 0 }}>Satellite</h3>
         <ul style={{ fontSize: bodySize }}>
-          <li>Usage above Plan selected is billed at $1.89 per kb.</li>
-          <li>
+          <li style={{ fontSize: bodySize }}>Usage above Plan selected is billed at $1.89 per kb.</li>
+          <li style={{ fontSize: bodySize }}>
             Charges will be applied and billed the month following that in which
             charges are incurred.
           </li>
